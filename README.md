@@ -1,6 +1,6 @@
 # Simple Python Flask Dockerized Application#
 
-Build the container using the following command
+Build the image using the following command
 
 ```bash
 $ docker build -t simple-flask-app:latest .
