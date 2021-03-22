@@ -22,7 +22,7 @@ spec:
       - name: dockerhub
       containers:
       - name:  hello-world-container
-        image: $img
+        image: $DOCKER_USERNAME/helloworld:$SEMAPHORE_WORKFLOW_ID
         readinessProbe:
           httpGet:
             path: /ready
