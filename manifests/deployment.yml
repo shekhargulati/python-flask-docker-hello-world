@@ -21,7 +21,7 @@ spec:
       imagePullSecrets:
       - name: dockerhub
       containers:
-      - name: helloworld
+      - name:  hello-world-containerhelloworld
         image: $img
         readinessProbe:
           httpGet:
