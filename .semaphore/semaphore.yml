@@ -5,9 +5,16 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: 'Block #1'
+  - name: Hello world
     task:
       jobs:
-        - name: 'Job #1'
+        - name: Build app
           commands:
+            - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
             - checkout
+            - docker-compose build
+            - 'docker tag pyflasksemaphore:latest "$DOCKER_USERNAME"/helloworld:latest'
+            - 'docker tag pyflasksemaphore:latest "$DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
+            - 'docker push "$DOCKER_USERNAME"/helloworld:latest'
+            - 'docker push "$DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
+            - docker images
