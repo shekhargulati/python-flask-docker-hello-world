@@ -1,0 +1,32 @@
+version: v1.0
+name: Pipeline 2
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Docker-login-pull
+    task:
+      jobs:
+        - name: docker-login
+          commands:
+            - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
+            - 'docker pull $DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
+      secrets:
+        - name: Docker Secrets
+  - name: Deploy
+    task:
+      secrets:
+        - name: Docker Secrets
+        - name: Digital Ocean Secret
+      env_vars:
+        - name: cluster_name
+          value: test-kubernetes
+      prologue:
+        commands:
+          - doctl auth init --access-token $DO_ACCESS_TOKEN
+          - 'doctl kubernetes cluster kubeconfig save "${CLUSTER_NAME}"'
+          - checkout
+      jobs:
+        - name: 'Job #1'
+          commands: []
