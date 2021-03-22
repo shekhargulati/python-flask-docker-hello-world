@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  users:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5001:5000
+    environment:
+      #- FLASK_APP=app/__init__.py
+      - FLASK_ENV=development
