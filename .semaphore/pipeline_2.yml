@@ -33,6 +33,6 @@ blocks:
             - chmod 600 ./apply.sh
             - chmod a+x ./apply.sh
             - kubectl apply -f manifests/service.yml
-            - ./apply.sh manifests/deployment.yml helloworld-canary 1 \
+            - './apply.sh manifests/deployment.yml helloworld-canary 1 '
             - if kubectl get deployment helloworld-stable; then \
             - kubectl scale --replicas=1 deployment/helloworld-stable; fi
