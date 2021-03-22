@@ -30,6 +30,8 @@ blocks:
       jobs:
         - name: Canary Deployment
           commands:
+            - chmod 600 ./apply.sh
+            - chmod a+x ./apply.sh
             - kubectl apply -f manifests/service.yml
             - ./apply.sh manifests/deployment.yml helloworld-canary 1 \
             - '$DOCKER_USERNAME/helloworld:$SEMAPHORE_WORKFLOW_ID'
