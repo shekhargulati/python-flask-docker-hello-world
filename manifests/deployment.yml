@@ -23,10 +23,3 @@ spec:
       containers:
       - name:  hello-world-container
         image: $DOCKER_USERNAME/helloworld:$SEMAPHORE_WORKFLOW_ID
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 5000
-        env:
-        - name: FLASK_ENV
-          value: "production"
