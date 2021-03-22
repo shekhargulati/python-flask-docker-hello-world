@@ -11,7 +11,7 @@ blocks:
         - name: docker-login
           commands:
             - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
-            - 'docker pull $DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
+            - 'docker pull $DOCKER_USERNAME/helloworld:$SEMAPHORE_WORKFLOW_ID'
       secrets:
         - name: Docker Secrets
   - name: Deploy
