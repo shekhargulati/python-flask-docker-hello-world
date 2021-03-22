@@ -2,11 +2,10 @@ version: '3.7'
 
 services:
   hello-world:
+    image: hello-world
     build:
       context: .
       dockerfile: Dockerfile
-      image: hello-world
-      container_name: hello-world
     ports:
       - 5001:5000
     environment:
