@@ -25,8 +25,9 @@ blocks:
       prologue:
         commands:
           - doctl auth init --access-token $DO_ACCESS_TOKEN
-          - 'doctl kubernetes cluster kubeconfig save "${CLUSTER_NAME}"'
+          - 'doctl kubernetes cluster kubeconfig save ${CLUSTER_NAME}'
           - checkout
       jobs:
         - name: Canary Deployment
-          commands: []
+          commands:
+            - kubectl apply -f manifests/service.yml
