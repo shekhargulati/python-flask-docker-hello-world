@@ -3,6 +3,7 @@ version: '3.7'
 services:
   hello-world:
     image: hello-world
+    container_name: hello-world-container
     build:
       context: .
       dockerfile: Dockerfile
