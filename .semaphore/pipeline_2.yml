@@ -20,12 +20,14 @@ blocks:
         - name: Docker Secrets
         - name: Digital Ocean Secret
       env_vars:
-        - name: cluster_name
+        - name: CLUSTER_NAME
           value: test-kubernetes
       prologue:
         commands:
+          - 'wget https://github.com/digitalocean/doctl/releases/download/v1.20.0/doctl-1.20.0-linux-amd64.tar.gz'
+          - sudo cp doctl /usr/local/bin
           - doctl auth init --access-token $DO_ACCESS_TOKEN
-          - 'doctl kubernetes cluster kubeconfig save ${CLUSTER_NAME}'
+          - 'doctl kubernetes cluster kubeconfig save "${CLUSTER_NAME}"'
           - checkout
       jobs:
         - name: Canary Deployment
