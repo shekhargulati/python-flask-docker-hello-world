@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $deployment
+spec:
+  replicas: $replicas
+  selector:
+    matchLabels:
+      app: addressbook
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: addressbook
+        deployment: $deployment
+    spec:
+      imagePullSecrets:
+      - name: dockerhub
+      containers:
+      - name: addressbook
+        image: $img
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5001
+        env:
+        - name: FLASK_ENV
+          value: "production"
