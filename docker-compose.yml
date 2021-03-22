@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      container_name: hello-world
     ports:
       - 5001:5000
     environment:
