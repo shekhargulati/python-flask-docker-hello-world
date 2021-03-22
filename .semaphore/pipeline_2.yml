@@ -36,4 +36,4 @@ blocks:
             - ./apply.sh manifests/deployment.yml helloworld-canary 1 \
             - '$DOCKER_USERNAME/helloworld:$SEMAPHORE_WORKFLOW_ID'
             - if kubectl get deployment helloworld-stable; then \
-            - kubectl scale --replicas=2 deployment/helloworld-stable; fi
+            - kubectl scale --replicas=1 deployment/helloworld-stable; fi

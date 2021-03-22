@@ -22,7 +22,11 @@ blocks:
       secrets:
         - name: Docker Secrets
 promotions:
-  - name: Promotion 1
+  - name: Canary
     pipeline_file: pipeline_2.yml
     auto_promote:
       when: (branch = 'setup-semaphore' OR tag =~ '^hotfix*') AND result = 'passed'
+  - name: Stable
+    pipeline_file: pipeline_3.yml
+  - name: Rollback
+    pipeline_file: pipeline_4.yml
