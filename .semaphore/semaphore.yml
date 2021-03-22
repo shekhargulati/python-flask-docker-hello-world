@@ -15,7 +15,7 @@ blocks:
             - docker-compose build
             - 'docker tag hello-world "$DOCKER_USERNAME"/helloworld:latest'
             - 'docker tag hello-world "$DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
-            - 'docker push "$DOCKER_USERNAME"/helloworld:latest'
+            - docker push "$DOCKER_USERNAME"/helloworld
             - 'docker push "$DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
             - docker images
       secrets:
