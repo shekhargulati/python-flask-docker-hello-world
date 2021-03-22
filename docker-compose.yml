@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  users:
+  hello-world:
     build:
       context: .
       dockerfile: Dockerfile
