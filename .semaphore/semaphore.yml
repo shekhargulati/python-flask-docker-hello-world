@@ -18,3 +18,5 @@ blocks:
             - 'docker push "$DOCKER_USERNAME"/helloworld:latest'
             - 'docker push "$DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
             - docker images
+      secrets:
+        - name: Docker Secrets
