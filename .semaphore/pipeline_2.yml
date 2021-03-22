@@ -31,3 +31,7 @@ blocks:
         - name: Canary Deployment
           commands:
             - kubectl apply -f manifests/service.yml
+            - ./apply.sh manifests/deployment.yml helloworld-canary 1 \
+            - '$DOCKER_USERNAME/helloworld:$SEMAPHORE_WORKFLOW_ID'
+            - if kubectl get deployment helloworld-stable; then \
+            - kubectl scale --replicas=2 deployment/helloworld-stable; fi
