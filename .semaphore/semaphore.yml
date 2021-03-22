@@ -13,6 +13,8 @@ blocks:
             - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
             - checkout
             - docker-compose build
+            - docker image
+            - docker ps
             - docker tag hello-world "$DOCKER_USERNAME"/helloworld
             - 'docker tag hello-world "$DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
             - docker push "$DOCKER_USERNAME"/helloworld
