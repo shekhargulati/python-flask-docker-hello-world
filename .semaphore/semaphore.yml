@@ -1,0 +1,32 @@
+version: v1.0
+name: Initial Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Hello world
+    task:
+      jobs:
+        - name: Build app
+          commands:
+            - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
+            - checkout
+            - docker-compose build
+            - docker image ls
+            - 'docker tag hello-world:latest "$DOCKER_USERNAME"/helloworld:latest'
+            - 'docker tag hello-world:latest "$DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
+            - 'docker push "$DOCKER_USERNAME"/helloworld:latest'
+            - 'docker push "$DOCKER_USERNAME"/helloworld:$SEMAPHORE_WORKFLOW_ID'
+            - docker images
+      secrets:
+        - name: Docker Secrets
+promotions:
+  - name: Canary
+    pipeline_file: pipeline_2.yml
+    auto_promote:
+      when: (branch = 'setup-semaphore' OR tag =~ '^hotfix*') AND result = 'passed'
+  - name: Stable
+    pipeline_file: pipeline_3.yml
+  - name: Rollback
+    pipeline_file: pipeline_4.yml

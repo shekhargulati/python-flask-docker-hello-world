@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $deployment
+spec:
+  replicas: $replicas
+  selector:
+    matchLabels:
+      app: helloworld
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: helloworld
+        deployment: $deployment
+    spec:
+      imagePullSecrets:
+      - name: dockerhub
+      containers:
+      - name:  hello-world-container
+        image: $DOCKER_USERNAME/helloworld:$SEMAPHORE_WORKFLOW_ID

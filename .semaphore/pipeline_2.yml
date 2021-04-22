@@ -1,0 +1,37 @@
+version: v1.0
+name: Pipeline 2
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Docker-login-pull
+    task:
+      jobs:
+        - name: docker-login
+          commands:
+            - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
+            - 'docker pull $DOCKER_USERNAME/helloworld:$SEMAPHORE_WORKFLOW_ID'
+      secrets:
+        - name: Docker Secrets
+  - name: Deploy
+    task:
+      secrets:
+        - name: Docker Secrets
+        - name: Digital Ocean Secret
+      env_vars:
+        - name: CLUSTER_NAME
+          value: test-kubernetes
+      prologue:
+        commands:
+          - doctl auth init --access-token $DO_ACCESS_TOKEN
+          - 'doctl kubernetes cluster kubeconfig save "${CLUSTER_NAME}"'
+          - checkout
+      jobs:
+        - name: Canary Deployment
+          commands:
+            - chmod 600 ./apply.sh
+            - chmod a+x ./apply.sh
+            - kubectl apply -f manifests/service.yml
+            - './apply.sh manifests/deployment.yml helloworld-canary 1 '
+            - if kubectl get deployment helloworld-stable; then kubectl scale --replicas=1 deployment/helloworld-stable; fi
